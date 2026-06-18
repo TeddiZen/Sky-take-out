@@ -18,105 +18,130 @@
         <module>sky-server</module>
     </modules>
     <properties>
+        <!-- MyBatis Spring Boot版本 -->
         <mybatis.spring>2.2.0</mybatis.spring>
-        <lombok>1.18.20</lombok>
+        <!-- Lombok代码简化工具版本 -->
+        <lombok>1.18.24</lombok>
+        <!-- FastJSON JSON序列化工具版本 -->
         <fastjson>1.2.76</fastjson>
+        <!-- Apache Commons Lang工具库版本 -->
         <commons.lang>2.6</commons.lang>
+        <!-- Druid数据库连接池版本 -->
         <druid>1.2.1</druid>
+        <!-- PageHelper分页插件版本 -->
         <pagehelper>1.3.0</pagehelper>
+        <!-- 阿里云OSS SDK版本 -->
         <aliyun.sdk.oss>3.10.2</aliyun.sdk.oss>
+        <!-- Knife4j API文档工具版本 -->
         <knife4j>3.0.2</knife4j>
+        <!-- AspectJ AOP框架版本 -->
         <aspectj>1.9.4</aspectj>
+        <!-- JJWT JWT令牌工具版本 -->
         <jjwt>0.9.1</jjwt>
+        <!-- JAXB XML绑定接口版本 -->
         <jaxb-api>2.3.1</jaxb-api>
+        <!-- Apache POI Excel处理工具版本 -->
         <poi>3.16</poi>
     </properties>
     <dependencyManagement>
         <dependencies>
+            <!-- MyBatis Spring Boot集成：提供ORM数据库访问支持 -->
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
                 <version>${mybatis.spring}</version>
             </dependency>
 
+            <!-- Lombok：自动生成getter/setter/toString等方法，简化代码 -->
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok}</version>
             </dependency>
 
+            <!-- FastJSON：阿里巴巴JSON序列化工具，高性能JSON处理 -->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson}</version>
             </dependency>
 
+            <!-- Commons Lang：Apache工具库，提供字符串、日期等常用工具类 -->
             <dependency>
                 <groupId>commons-lang</groupId>
                 <artifactId>commons-lang</artifactId>
                 <version>${commons.lang}</version>
             </dependency>
 
+            <!-- Druid：阿里巴巴数据库连接池，支持监控和SQL解析 -->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-starter</artifactId>
                 <version>${druid}</version>
             </dependency>
 
+            <!-- PageHelper：MyBatis分页插件，简化分页查询 -->
             <dependency>
                 <groupId>com.github.pagehelper</groupId>
                 <artifactId>pagehelper-spring-boot-starter</artifactId>
                 <version>${pagehelper}</version>
             </dependency>
 
+            <!-- Knife4j：API文档工具，基于Swagger，提供接口调试和文档生成 -->
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-spring-boot-starter</artifactId>
                 <version>${knife4j}</version>
             </dependency>
 
+            <!-- AspectJ Runtime：AOP切面运行时支持 -->
             <dependency>
                 <groupId>org.aspectj</groupId>
                 <artifactId>aspectjrt</artifactId>
                 <version>${aspectj}</version>
             </dependency>
 
+            <!-- AspectJ Weaver：AOP切面织入器，实现面向切面编程 -->
             <dependency>
                 <groupId>org.aspectj</groupId>
                 <artifactId>aspectjweaver</artifactId>
                 <version>${aspectj}</version>
             </dependency>
 
+            <!-- JJWT：JWT令牌生成与解析工具，用于身份认证 -->
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt</artifactId>
                 <version>${jjwt}</version>
             </dependency>
 
+            <!-- 阿里云OSS SDK：阿里云对象存储服务客户端 -->
             <dependency>
                 <groupId>com.aliyun.oss</groupId>
                 <artifactId>aliyun-sdk-oss</artifactId>
                 <version>${aliyun.sdk.oss}</version>
             </dependency>
 
+            <!-- JAXB API：XML数据绑定接口，用于XML序列化与反序列化 -->
             <dependency>
                 <groupId>javax.xml.bind</groupId>
                 <artifactId>jaxb-api</artifactId>
                 <version>${jaxb-api}</version>
             </dependency>
 
-            <!-- poi -->
+            <!-- Apache POI：Excel文件读写工具（支持xls格式） -->
             <dependency>
                 <groupId>org.apache.poi</groupId>
                 <artifactId>poi</artifactId>
                 <version>${poi}</version>
             </dependency>
+            <!-- Apache POI-OOXML：支持xlsx格式Excel文件读写 -->
             <dependency>
                 <groupId>org.apache.poi</groupId>
                 <artifactId>poi-ooxml</artifactId>
                 <version>${poi}</version>
             </dependency>
-            <!--微信支付-->
+            <!-- 微信支付SDK：微信支付API客户端，处理支付相关业务 -->
             <dependency>
                 <groupId>com.github.wechatpay-apiv3</groupId>
                 <artifactId>wechatpay-apache-httpclient</artifactId>
