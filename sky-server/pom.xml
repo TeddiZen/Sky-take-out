@@ -11,6 +11,7 @@
     <artifactId>sky-server</artifactId>
     <dependencies>
 
+        <!-- 项目公共模块：包含工具类、通用配置、异常处理等公共代码 -->
         <dependency>
             <groupId>com.sky</groupId>
             <artifactId>sky-common</artifactId>
@@ -23,94 +24,111 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
+        <!-- Spring Boot核心依赖：提供自动配置、IoC容器等基础功能 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
 
+        <!-- 测试依赖：包含JUnit、MockMvc等测试框架 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
 
+        <!-- Web开发依赖：包含Spring MVC、内嵌Tomcat、JSON处理等 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <scope>compile</scope>
         </dependency>
 
+        <!-- MySQL数据库驱动：用于连接MySQL数据库 -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
 
+        <!-- MyBatis ORM框架：提供数据库访问层的对象关系映射 -->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
         </dependency>
 
+        <!-- Lombok：简化Java代码，自动生成getter/setter、toString等方法 -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
 
+        <!-- FastJSON：阿里巴巴JSON序列化工具，用于对象与JSON互转 -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
         </dependency>
 
+        <!-- Druid数据库连接池：阿里巴巴高性能数据库连接池，支持监控 -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
         </dependency>
 
+        <!-- PageHelper分页插件：MyBatis分页工具，简化分页查询 -->
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
         </dependency>
 
+        <!-- AspectJ运行时：AOP切面编程支持，用于定义切面逻辑 -->
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
         </dependency>
 
+        <!-- AspectJ织入器：AOP切面织入，实现面向切面编程 -->
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
         </dependency>
 
+        <!-- Knife4j：API文档生成工具，基于Swagger，提供接口文档和调试功能 -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-boot-starter</artifactId>
         </dependency>
 
+        <!-- Redis数据访问：提供Redis客户端支持，用于缓存操作 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
+        <!-- Spring缓存支持：提供声明式缓存注解，整合Redis等缓存实现 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
 
+        <!-- WebSocket支持：实现WebSocket双向通信，用于实时消息推送 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
 
+        <!-- JAXB API：XML绑定接口，用于XML数据的序列化与反序列化 -->
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
         </dependency>
 
-        <!-- poi -->
+        <!-- Apache POI：Excel文件读写工具 -->
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
         </dependency>
+        <!-- Apache POI-OOXML：支持xlsx格式Excel文件读写 -->
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
