@@ -5,6 +5,7 @@ import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
 import com.sky.dto.EmployeePageQueryDTO;
 import com.sky.entity.Employee;
+import com.sky.result.PageResult;
 import org.springframework.beans.BeanUtils;
 
 public interface EmployeeService {
@@ -27,5 +28,5 @@ public interface EmployeeService {
      * @param employeePageQueryDTO
      * @return
      */
-    Page<Employee> queryEmployeePage(EmployeePageQueryDTO employeePageQueryDTO);
+    PageResult queryEmployeePage(EmployeePageQueryDTO employeePageQueryDTO);
 }

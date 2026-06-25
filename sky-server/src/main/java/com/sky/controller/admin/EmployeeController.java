@@ -1,7 +1,5 @@
 package com.sky.controller.admin;
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.sky.constant.JwtClaimsConstant;
 import com.sky.constant.MessageConstant;
 import com.sky.dto.EmployeeDTO;
@@ -99,7 +97,7 @@ public class EmployeeController {
     @GetMapping
     public Result<PageResult> queryEmployeePage(@RequestBody EmployeePageQueryDTO employeePageQueryDTO) {
         log.info("员工分页查询：{}", employeePageQueryDTO);
-
+        PageResult pageResult = employeeService.queryEmployeePage(employeePageQueryDTO);
         return Result.success(pageResult);
     }
 

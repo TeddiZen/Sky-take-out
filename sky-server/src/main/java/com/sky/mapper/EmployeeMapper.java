@@ -1,9 +1,12 @@
 package com.sky.mapper;
 
+import com.github.pagehelper.Page;
 import com.sky.entity.Employee;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 @Mapper
 public interface EmployeeMapper {
@@ -24,4 +27,12 @@ public interface EmployeeMapper {
             "values " +
             "(#{username}, #{name}, #{password}, #{phone}, #{sex}, #{idNumber}, #{status}, #{createTime}, #{updateTime}, #{createUser}, #{updateUser})")
     void insert(Employee employee);
+
+    /**
+     * 分页查询员工
+     * @param page
+     * @param pageSize
+     * @return
+     */
+    List<Employee> selectPage(int page, int pageSize);
 }
