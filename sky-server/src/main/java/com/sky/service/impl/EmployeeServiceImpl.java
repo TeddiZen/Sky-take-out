@@ -94,7 +94,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public PageResult queryEmployeePage(EmployeePageQueryDTO employeePageQueryDTO) {
         PageHelper.startPage(employeePageQueryDTO.getPage(), employeePageQueryDTO.getPageSize());
-        List<Employee> employee = employeeMapper.selectPage();
+        List<Employee> employee = employeeMapper.selectPage(employeePageQueryDTO.getName());
         PageInfo<Employee> page = new PageInfo<>(employee);
         PageResult pageResult = new PageResult(page.getTotal(), page.getList());
         return pageResult;
