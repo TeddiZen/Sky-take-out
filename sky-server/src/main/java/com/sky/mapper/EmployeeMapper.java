@@ -30,9 +30,8 @@ public interface EmployeeMapper {
 
     /**
      * 分页查询员工
-     * @param pageNum 当前页码
-     * @param pageSize 每页记录数
+     * @param name 员工姓名
      * @return
      */
-    List<Employee> selectPage();
+    List<Employee> selectPage(String name);
 }
