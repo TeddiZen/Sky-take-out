@@ -100,4 +100,21 @@ public class EmployeeServiceImpl implements EmployeeService {
         PageResult pageResult = new PageResult(page.getTotal(), page.getList());
         return pageResult;
     }
+
+    /**
+     * 启用/禁用员工
+     * @param id
+     * @param status
+     */
+    @Override
+    @Transactional
+    public void enableDisableEmployee(Long id, Integer status) {
+        Employee employee = Employee.builder()
+                .id(id)
+                .status(status)
+                .updateTime(LocalDateTime.now())
+                .updateUser(BaseContext.getCurrentId())
+                .build();
+        employeeMapper.updateById(employee);
+    }
 }
