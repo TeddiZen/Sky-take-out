@@ -34,4 +34,10 @@ public interface EmployeeMapper {
      * @return
      */
     List<Employee> selectPage(String name);
+
+    /**
+     * 更新员工
+     * @param employee
+     */
+    void updateById(Employee employee);
 }
