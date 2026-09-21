@@ -8,6 +8,7 @@
             <if test="name != null and name != ''">and name like concat('%', #{name}, '%')</if>
         </where> order by id desc
     </select>
+
     <update id="updateById" parameterType="com.sky.entity.Employee">
         update employee
         <set>
@@ -23,6 +24,7 @@
         </set>
         where id = #{id}
     </update>
+
     <select id="selectById" parameterType="java.lang.Long" resultType="com.sky.entity.Employee">
         select * from employee where id = #{id}
     </select>
