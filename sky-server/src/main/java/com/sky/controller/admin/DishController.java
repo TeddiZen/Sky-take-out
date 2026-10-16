@@ -43,7 +43,7 @@ public class DishController {
      */
     @ApiOperation("分页查询菜品")
     @GetMapping("/page")
-    public Result<PageResult> page(@RequestBody DishPageQueryDTO dishPageQueryDTO) {
+    public Result<PageResult> page(DishPageQueryDTO dishPageQueryDTO) {
         //1、调用服务层方法查询分页数据
         log.info("分页查询菜品，参数：{}", dishPageQueryDTO);
         PageResult pageResult = dishService.page(dishPageQueryDTO);
