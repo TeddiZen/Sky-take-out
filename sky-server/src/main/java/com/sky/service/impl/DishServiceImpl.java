@@ -6,8 +6,10 @@ import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
 import com.sky.entity.Dish;
 import com.sky.entity.DishFlavor;
+import com.sky.exception.DeletionNotAllowedException;
 import com.sky.mapper.DishFlavorMapper;
 import com.sky.mapper.DishMapper;
+import com.sky.mapper.SetmealDishMapper;
 import com.sky.result.PageResult;
 import com.sky.service.DishService;
 
@@ -30,12 +32,15 @@ public class DishServiceImpl implements DishService {
     @Autowired
     private DishFlavorMapper dishFlavorMapper;
 
+    @Autowired
+    private SetmealDishMapper setmealDishMapper;
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void save(DishDTO dishDTO) {
         //1、将DTO转换为实体对象
         Dish dish = new Dish();
-        BeanUtils.copyProperties(dishDTO,dish);
+        BeanUtils.copyProperties(dishDTO, dish);
         //2、将实体对象转换为数据库中的数据
         dishMapper.insert(dish);
         //获取菜品id
@@ -54,8 +59,33 @@ public class DishServiceImpl implements DishService {
     @Override
     public PageResult page(DishPageQueryDTO dishPageQueryDTO) {
         //1、分页查询菜品
-        PageHelper.startPage(dishPageQueryDTO.getPage(),dishPageQueryDTO.getPageSize());
+        PageHelper.startPage(dishPageQueryDTO.getPage(), dishPageQueryDTO.getPageSize());
         Page<DishVO> page = dishMapper.selectPage(dishPageQueryDTO);
-        return new PageResult(page.getTotal(),page.getResult());
-       }
+        return new PageResult(page.getTotal(), page.getResult());
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void delete(List<Long> ids) {
+
+        // 查出菜品
+        for(Long id:ids){
+            Dish dish = dishMapper.getById(id);
+            if(dish.getStatus() == 1){
+                throw new DeletionNotAllowedException("已启售菜品不能删除");
+            }
+        }
+
+        // 查看菜品是否被套餐关联了
+        List<Long> dishIds = setmealDishMapper.selectByDishIds(ids);
+        if(!dishIds.isEmpty()) {
+            throw new DeletionNotAllowedException("套餐中包含该菜品，不能删除");
+        }
+
+        // 删除菜品以及菜品
+        dishMapper.deleteByIds(ids);
+        // 删除菜品口味
+        dishFlavorMapper.deleteByIds(ids);
+    }
 }
+
