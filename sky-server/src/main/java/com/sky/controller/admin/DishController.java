@@ -8,6 +8,7 @@ import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.DishService;
 import com.sky.vo.DishOverViewVO;
+import com.sky.vo.DishVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,17 @@ public class DishController {
 
     @Autowired
     private DishService dishService;
+
+
+    /**
+     * 根据ID查询菜品
+     */
+    @ApiOperation("根据ID查询菜品")
+    @GetMapping("/{id}")
+    public Result<DishVO> getById(@PathVariable Long id) {
+        DishVO dishVO = dishService.getById(id);
+        return Result.success(dishVO);
+    }
 
     /**
      * 新增菜品
@@ -64,4 +76,14 @@ public class DishController {
         return Result.success();
     }
 
+    /**
+     * 修改菜品
+     * @return
+     */
+    @ApiOperation("修改菜品")
+    @PutMapping
+    public Result<String> update(@RequestBody DishDTO dishDTO) {
+        dishService.updateWithFlavor(dishDTO);
+        return Result.success();
+    }
 }
