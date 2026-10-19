@@ -47,7 +47,7 @@ public class DishServiceImpl implements DishService {
         Long dishId = dish.getId();
         List<DishFlavor> dishFlavors = new ArrayList<>(dishDTO.getFlavors());
         //3、保存菜品口味到数据库
-        if (!dishFlavors.isEmpty() && dishFlavors != null) {
+        if (dishFlavors != null && !dishFlavors.isEmpty()) {
             dishFlavors.forEach(dishFlavor -> {
                 dishFlavor.setDishId(dishId);
             });

@@ -55,7 +55,7 @@ public class DishController {
      * 分页查询菜品
      * @return
      */
-    @ApiOperation("分页查询菜品")
+    @ApiOperation("菜品分页查询")
     @GetMapping("/page")
     public Result<PageResult> page(DishPageQueryDTO dishPageQueryDTO) {
         //1、调用服务层方法查询分页数据
