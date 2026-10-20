@@ -75,4 +75,17 @@ public class SetmealController {
         SetmealVO setmealVO = setmealService.getById(id);
         return Result.success(setmealVO);
     }
+
+    /**
+     * 修改套餐信息
+     * @param setmealDTO 套餐信息
+     * @return
+     */
+    @PutMapping
+    @ApiOperation("修改套餐信息")
+    public Result update(@RequestBody SetmealDTO setmealDTO) {
+        log.info("修改套餐信息:{}", setmealDTO);
+        setmealService.update(setmealDTO);
+        return Result.success();
+    }
 }

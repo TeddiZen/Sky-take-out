@@ -15,7 +15,7 @@
             (#{setmealDish.id},#{setmealDish.setmealId}, #{setmealDish.dishId}, #{setmealDish.price}, #{setmealDish.name}, #{setmealDish.copies})
         </foreach>
     </insert>
-    <delete id="deleteBatch" parameterType="java.util.List">
+    <delete id="deleteBySetmealIds" parameterType="java.util.List">
         delete from setmeal_dish where setmeal_id in
         <foreach collection="ids" item="id" open="(" close=")" separator=",">
             #{id}

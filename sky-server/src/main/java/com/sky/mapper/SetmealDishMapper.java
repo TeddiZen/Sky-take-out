@@ -25,7 +25,7 @@ public interface SetmealDishMapper {
      * 批量删除套餐菜品关系
      * @param ids
      */
-    void deleteBatch(List<Long> ids);
+    void deleteBySetmealIds(List<Long> ids);
 
     /**
      * 根据套餐id查询套餐菜品关系
