@@ -14,4 +14,10 @@
         </where>
         order by s.id desc
     </select>
+    <delete id="deleteBatch" parameterType="java.util.List">
+        delete from setmeal where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

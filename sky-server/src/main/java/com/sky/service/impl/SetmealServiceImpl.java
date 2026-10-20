@@ -56,4 +56,13 @@ public class SetmealServiceImpl implements SetmealService {
         PageResult pageResult = new PageResult(setmeals.getTotal(), setmeals.getResult());
         return pageResult;
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void delete(List<Long> ids) {
+        // 删除套餐
+        setmealMapper.deleteBatch(ids);
+        // 删除套餐菜品关系
+        setmealDishMapper.deleteBatch(ids);
+    }
 }
