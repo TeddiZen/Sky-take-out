@@ -6,11 +6,9 @@ import com.sky.dto.SetmealPageQueryDTO;
 import com.sky.entity.Setmeal;
 import com.sky.enumeration.OperationType;
 import com.sky.vo.SetmealVO;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper
@@ -58,4 +56,12 @@ public interface SetmealMapper {
      */
     @AutoFill(value = OperationType.UPDATE)
     void update(Setmeal setmeal);
+
+    /**
+     * 修改套餐状态
+     * @param status 套餐状态
+     * @param id 套餐id
+     */
+    @Update("update setmeal set status = #{status}, update_time = #{updateTime}, update_user = #{updateUser} where id = #{id}")
+    void updateStatus(Integer status, Long id, LocalDateTime updateTime, Long updateUser);
 }
