@@ -60,7 +60,7 @@ public interface SetmealMapper {
     /**
      * 修改套餐状态
      * @param status 套餐状态
-     * @param id 套餐id
+     * @param id id
      */
     @Update("update setmeal set status = #{status}, update_time = #{updateTime}, update_user = #{updateUser} where id = #{id}")
     void updateStatus(Integer status, Long id, LocalDateTime updateTime, Long updateUser);
