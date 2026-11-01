@@ -42,3 +42,9 @@ sky:
     access-key-secret: ${sky.alioss.access-key-secret}
     bucket-name: ${sky.alioss.bucket-name}
     endpoint: ${sky.alioss.endpoint}
+  spring:
+    redis:
+      host: localhost
+      port: 6379
+      database: 0
+      # password: 你的密码 (如果有的话)
