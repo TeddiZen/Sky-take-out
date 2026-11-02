@@ -22,7 +22,7 @@ public class RedisConfiguration {
         // 设置redis key的序列化器（让Key在Redis里显示为正常的字符串）
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         // 设置redis value的序列化器（让Value在Redis里显示为正常的字符串）
-        redisTemplate.setValueSerializer(new StringRedisSerializer());
+//        redisTemplate.setValueSerializer(new StringRedisSerializer());
         log.info("redis模板对象创建完成");
         return redisTemplate;
     }
