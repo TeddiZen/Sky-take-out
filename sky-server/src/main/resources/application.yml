@@ -39,7 +39,7 @@ sky:
     admin-token-name: token
     user-secret-key: itheima
     user-ttl: 720000000
-    user-token-name: authorication
+    user-token-name: authentication
   alioss:
     access-key-id: ${sky.alioss.access-key-id}
     access-key-secret: ${sky.alioss.access-key-secret}
