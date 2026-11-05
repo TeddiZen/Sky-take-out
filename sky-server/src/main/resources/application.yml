@@ -37,14 +37,19 @@ sky:
     admin-ttl: 720000000
     # 设置前端传递过来的令牌名称
     admin-token-name: token
+    user-secret-key: itheima
+    user-ttl: 720000000
+    user-token-name: authorication
   alioss:
     access-key-id: ${sky.alioss.access-key-id}
     access-key-secret: ${sky.alioss.access-key-secret}
     bucket-name: ${sky.alioss.bucket-name}
     endpoint: ${sky.alioss.endpoint}
-  spring:
-    redis:
-      host: localhost
-      port: 6379
-      database: 0
-      # password: 你的密码 (如果有的话)
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+    # password: 你的密码 (如果有的话)
+  wechat:
+    appid: ${sky.wx.app-id}
+    secret: ${sky.wx.app-secret}
