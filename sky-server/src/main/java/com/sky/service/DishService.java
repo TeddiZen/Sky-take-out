@@ -61,4 +61,9 @@ public interface DishService {
      */
     List<DishVO> listWithFlavor(Dish dish);
 
+    /**
+     * 菜品的起售/停售
+     * @param status
+     */
+    void updateStatus(Long id, Integer status);
 }
