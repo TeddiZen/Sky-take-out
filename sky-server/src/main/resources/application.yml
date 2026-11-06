@@ -51,5 +51,5 @@ sky:
     database: 0
     # password: 你的密码 (如果有的话)
   wechat:
-    appid: ${sky.wx.app-id}
-    secret: ${sky.wx.app-secret}
+    appid: ${sky.wechat.appid}
+    secret: ${sky.wechat.secret}

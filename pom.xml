@@ -20,8 +20,8 @@
     <properties>
         <!-- MyBatis Spring Boot版本 -->
         <mybatis.spring>2.2.0</mybatis.spring>
-        <!-- Lombok代码简化工具版本 -->
-        <lombok>1.18.24</lombok>
+        <!-- Lombok：需 >=1.18.32 兼容 JDK 21+，1.18.36 兼容到 JDK 22 -->
+        <lombok>1.18.36</lombok>
         <!-- FastJSON JSON序列化工具版本 -->
         <fastjson>1.2.76</fastjson>
         <!-- Apache Commons Lang工具库版本 -->
@@ -149,4 +149,14 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.12.1</version>
+            </plugin>
+        </plugins>
+    </build>
 </project>
