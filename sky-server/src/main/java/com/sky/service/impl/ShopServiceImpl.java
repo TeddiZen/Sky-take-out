@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class ShopServiceImpl implements ShopService {
 
     @Autowired
-    private RedisTemplate<String, Integer> redisTemplate;
+    private RedisTemplate redisTemplate;
 
     static final String SHOP_STATUS_KEY = "shop:status";
 
@@ -22,7 +22,7 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public Integer getStatus() {
         // 店铺营业状态 1:营业中 0:打烊中
-        Integer status = redisTemplate.opsForValue().get(SHOP_STATUS_KEY);
+        Integer status = (Integer) redisTemplate.opsForValue().get(SHOP_STATUS_KEY);
         return status == null ? 0 : status;
     }
 }
