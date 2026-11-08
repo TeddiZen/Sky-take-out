@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.cache.annotation.Cacheable;
+
 import java.util.List;
 
 @RestController("userSetmealController")
@@ -46,6 +48,7 @@ public class SetmealController {
      */
     @GetMapping("/dish/{id}")
     @ApiOperation("根据套餐id查询包含的菜品列表")
+    @Cacheable(cacheNames = "setmealCache", key = "#id") //根据套餐id缓存
     public Result<List<DishItemVO>> dishList(@PathVariable("id") Long id) {
         List<DishItemVO> list = setmealService.getDishItemById(id);
         return Result.success(list);
