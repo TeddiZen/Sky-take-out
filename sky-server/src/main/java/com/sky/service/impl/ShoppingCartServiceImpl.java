@@ -95,6 +95,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
      */
     @Override
     public void delete(ShoppingCartDTO shoppingCartDTO) {
+
+        // 查询购物车中是否存在相同菜品或套餐的记录
         ShoppingCart shoppingCart = new ShoppingCart();
         BeanUtils.copyProperties(shoppingCartDTO, shoppingCart);
         shoppingCart.setUserId(BaseContext.getCurrentId());
