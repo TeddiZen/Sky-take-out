@@ -33,6 +33,6 @@ public interface OrdersMapper {
      * @param ordersPageQueryDTO 订单查询参数
      * @return 订单分页结果集
      */
-    @Select("select * from orders where  = #{userId}")
+    @Select("select * from orders where user_id = #{userId}")
     Page<Orders> selectPage(OrdersPageQueryDTO ordersPageQueryDTO);
 }

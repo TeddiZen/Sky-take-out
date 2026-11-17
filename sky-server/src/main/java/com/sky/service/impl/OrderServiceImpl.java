@@ -5,6 +5,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
 import com.sky.context.BaseContext;
+import com.sky.dto.OrdersDTO;
 import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.dto.OrdersPaymentDTO;
 import com.sky.dto.OrdersSubmitDTO;
@@ -16,6 +17,7 @@ import com.sky.service.OrderService;
 import com.sky.utils.WeChatPayUtil;
 import com.sky.vo.OrderPaymentVO;
 import com.sky.vo.OrderSubmitVO;
+import com.sky.vo.OrderVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -163,18 +166,36 @@ public class OrderServiceImpl implements OrderService {
      * @param ordersPageQueryDTO 订单查询参数
      * @return 订单分页结果集
      */
-    @Transactional
     public PageResult historyOrders(OrdersPageQueryDTO ordersPageQueryDTO) {
+
+        Long userId = BaseContext.getCurrentId();
+        ordersPageQueryDTO.setUserId(userId);
 
         PageHelper.startPage(ordersPageQueryDTO.getPage(), ordersPageQueryDTO.getPageSize());
         Page<Orders> page = ordersMapper.selectPage(ordersPageQueryDTO);
 
-        List<OrderDetail> ordersDetailList = page.getResult();
+        List<Orders> ordersList = page.getResult();
+        List<OrderVO> orderVOList = new ArrayList<>();
+
+        log.info("历史订单查询参数：{}", page.getResult());
+
+        for (Orders orders : ordersList) {
+            Long ordersId = orders.getId();
+            OrderVO orderVO = new OrderVO();
+            BeanUtils.copyProperties(orders, orderVO);
+            List<OrderDetail> orderDetailList = orderDetailMapper.listByOrderId(ordersId);
+            orderVO.setOrderDetailList(orderDetailList);
+            orderVOList.add(orderVO);
+        }
+
+        log.info("历史订单查询结果：{}", orderVOList.get(0).getUserId());
 
 
         PageResult pageResult = new PageResult();
         pageResult.setTotal(page.getTotal());
-        pageResult.setRecords(page.getResult());
+        pageResult.setRecords(orderVOList);
+
+        log.info("历史订单查询结果：{}", pageResult);
 
         return pageResult;
     }
