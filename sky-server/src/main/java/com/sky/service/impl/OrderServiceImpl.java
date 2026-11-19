@@ -235,15 +235,10 @@ public class OrderServiceImpl implements OrderService {
      * 再来一单
      * @param id 订单id
      */
+    @Transactional(rollbackFor = Exception.class)
     public void repetition(Long id) {
 
-        // 清空购物车
-        Long userId = BaseContext.getCurrentId();
-        ShoppingCart shoppingCart = new ShoppingCart();
-        shoppingCart.setUserId(userId);
-        shoppingCartMapper.delete(shoppingCart);
-
-        // 根据订单id查询订单，判断订单是否存在且状态是否为已确认
+        // 根据订单id查询订单，判断订单是否存在且状态是否为已完成
         Orders orders = ordersMapper.selectById(id);
         if (orders == null) {
             throw new OrderBusinessException(MessageConstant.ORDER_NOT_FOUND);
@@ -252,14 +247,39 @@ public class OrderServiceImpl implements OrderService {
             throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
         }
 
+        // 清空购物车
+        Long userId = BaseContext.getCurrentId();
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setUserId(userId);
+        shoppingCartMapper.delete(shoppingCart);
+
+
         // 查询旧订单菜品信息
         List<OrderDetail> orderDetailList = orderDetailMapper.listByOrderId(id);
 
         // 写入购物车
         for (OrderDetail orderDetail : orderDetailList) {
-            BeanUtils.copyProperties(orderDetail, shoppingCart);
-            shoppingCart.setUserId(userId);
-            shoppingCartMapper.insert(shoppingCart);
+            ShoppingCart cart = new ShoppingCart();
+            BeanUtils.copyProperties(orderDetail, cart);
+            cart.setUserId(userId);
+            cart.setCreateTime(LocalDateTime.now());
+            shoppingCartMapper.insert(cart);
         }
+
+    }
+
+    /**
+     * 订单搜索
+     * @param ordersPageQueryDTO 订单查询参数
+     * @return 订单查询参数集
+     */
+    public PageResult searchOrders(OrdersPageQueryDTO ordersPageQueryDTO) {
+        // 分页查询
+        PageHelper.startPage(ordersPageQueryDTO.getPage(), ordersPageQueryDTO.getPageSize());
+        Page<Orders> page = ordersMapper.selectPage(ordersPageQueryDTO);
+        PageResult pageResult = new PageResult();
+        pageResult.setTotal(page.getTotal());
+        pageResult.setRecords(page.getResult());
+        return pageResult;
     }
 }

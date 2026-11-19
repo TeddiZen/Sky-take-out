@@ -49,4 +49,20 @@
         where id = #{id}
     </update>
 
+    <select id="selectPage" parameterType="com.sky.dto.OrdersPageQueryDTO" resultType="com.sky.entity.Orders">
+        select * from orders
+        <where>
+            <if test="userId != null">user_id = #{userId}</if>
+            <if test="status != null">status = #{status}</if>
+            <if test="number != null and number!='' ">number like concat('%',#{number},'%')</if>
+            <if test="phone != null and phone!='' ">phone like concat('%',#{phone},'%')</if>
+            <if test="beginTime != null">
+                order_time >= #{beginTime}
+            </if>
+            <if test="endTime != null">
+                order_time &lt; #{endTime}
+            </if>
+        </where>
+    </select>
+
 </mapper>
