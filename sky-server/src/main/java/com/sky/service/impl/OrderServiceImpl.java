@@ -199,4 +199,18 @@ public class OrderServiceImpl implements OrderService {
 
         return pageResult;
     }
+
+    /**
+     * 查询订单详情
+     * @param id 订单id
+     * @return 订单详情
+     */
+    public OrderVO detail(Long id) {
+        Orders orders = ordersMapper.selectById(id);
+        OrderVO orderVO = new OrderVO();
+        BeanUtils.copyProperties(orders, orderVO);
+        List<OrderDetail> orderDetailList = orderDetailMapper.listByOrderId(id);
+        orderVO.setOrderDetailList(orderDetailList);
+        return orderVO;
+    }
 }

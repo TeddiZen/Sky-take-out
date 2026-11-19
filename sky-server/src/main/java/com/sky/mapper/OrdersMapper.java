@@ -35,4 +35,12 @@ public interface OrdersMapper {
      */
     @Select("select * from orders where user_id = #{userId}")
     Page<Orders> selectPage(OrdersPageQueryDTO ordersPageQueryDTO);
+
+    /**
+     * 根据订单id查询订单
+     * @param id 订单id
+     * @return 订单
+     */
+    @Select("select * from orders where id = #{id}")
+    Orders selectById(Long id);
 }
