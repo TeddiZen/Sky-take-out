@@ -14,6 +14,7 @@ import com.sky.exception.OrderBusinessException;
 import com.sky.mapper.*;
 import com.sky.result.PageResult;
 import com.sky.service.OrderService;
+import com.sky.service.ShoppingCartService;
 import com.sky.utils.WeChatPayUtil;
 import com.sky.vo.OrderPaymentVO;
 import com.sky.vo.OrderSubmitVO;
@@ -212,5 +213,53 @@ public class OrderServiceImpl implements OrderService {
         List<OrderDetail> orderDetailList = orderDetailMapper.listByOrderId(id);
         orderVO.setOrderDetailList(orderDetailList);
         return orderVO;
+    }
+
+    /**
+     * 取消订单
+     * @param id 订单id
+     */
+    public void cancel(Long id) {
+        Orders orders = ordersMapper.selectById(id);
+        if (orders == null) {
+            throw new OrderBusinessException(MessageConstant.ORDER_NOT_FOUND);
+        }
+        if (orders.getStatus() != Orders.TO_BE_CONFIRMED) {
+            throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
+        }
+        orders.setStatus(Orders.CANCELLED);
+        ordersMapper.update(orders);
+    }
+
+    /**
+     * 再来一单
+     * @param id 订单id
+     */
+    public void repetition(Long id) {
+
+        // 清空购物车
+        Long userId = BaseContext.getCurrentId();
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setUserId(userId);
+        shoppingCartMapper.delete(shoppingCart);
+
+        // 根据订单id查询订单，判断订单是否存在且状态是否为已确认
+        Orders orders = ordersMapper.selectById(id);
+        if (orders == null) {
+            throw new OrderBusinessException(MessageConstant.ORDER_NOT_FOUND);
+        }
+        if (orders.getStatus() != Orders.COMPLETED) {
+            throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
+        }
+
+        // 查询旧订单菜品信息
+        List<OrderDetail> orderDetailList = orderDetailMapper.listByOrderId(id);
+
+        // 写入购物车
+        for (OrderDetail orderDetail : orderDetailList) {
+            BeanUtils.copyProperties(orderDetail, shoppingCart);
+            shoppingCart.setUserId(userId);
+            shoppingCartMapper.insert(shoppingCart);
+        }
     }
 }
