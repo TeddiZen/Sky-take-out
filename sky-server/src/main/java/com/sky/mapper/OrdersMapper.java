@@ -3,6 +3,8 @@ package com.sky.mapper;
 import com.github.pagehelper.Page;
 import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.entity.Orders;
+import com.sky.vo.OrderOverViewVO;
+import com.sky.vo.OrderStatisticsVO;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -42,4 +44,11 @@ public interface OrdersMapper {
      */
     @Select("select * from orders where id = #{id}")
     Orders selectById(Long id);
+
+
+    /**
+     * 订单概览
+     * @return 订单概览数据
+     */
+    OrderStatisticsVO overview();
 }

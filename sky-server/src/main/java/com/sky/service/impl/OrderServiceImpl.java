@@ -16,9 +16,7 @@ import com.sky.result.PageResult;
 import com.sky.service.OrderService;
 import com.sky.service.ShoppingCartService;
 import com.sky.utils.WeChatPayUtil;
-import com.sky.vo.OrderPaymentVO;
-import com.sky.vo.OrderSubmitVO;
-import com.sky.vo.OrderVO;
+import com.sky.vo.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -281,5 +279,63 @@ public class OrderServiceImpl implements OrderService {
         pageResult.setTotal(page.getTotal());
         pageResult.setRecords(page.getResult());
         return pageResult;
+    }
+
+    /**
+     * 订单概览
+     * @return 订单概览数据
+     */
+    public OrderStatisticsVO overview() {
+        // 查询订单概览
+        OrderStatisticsVO orderStatisticsVO = ordersMapper.overview();
+        return orderStatisticsVO;
+    }
+
+    /**
+     * 完成订单
+     * @param id 订单id
+     */
+    public void complete(Long id) {
+        Orders orders = ordersMapper.selectById(id);
+        if (orders == null) {
+            throw new OrderBusinessException(MessageConstant.ORDER_NOT_FOUND);
+        }
+        if (orders.getStatus() != Orders.DELIVERY_IN_PROGRESS) {
+            throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
+        }
+        orders.setStatus(Orders.COMPLETED);
+        ordersMapper.update(orders);
+    }
+
+    /**
+     * 接单订单
+     * @param id 订单id
+     */
+    public void confirm(Long id) {
+        Orders orders = ordersMapper.selectById(id);
+        if (orders == null) {
+            throw new OrderBusinessException(MessageConstant.ORDER_NOT_FOUND);
+        }
+        if (orders.getStatus() != Orders.TO_BE_CONFIRMED) {
+            throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
+        }
+        orders.setStatus(Orders.CONFIRMED);
+        ordersMapper.update(orders);
+    }
+
+    /**
+     * 派送订单
+     * @param id 订单id
+     */
+    public void delivery(Long id) {
+        Orders orders = ordersMapper.selectById(id);
+        if (orders == null) {
+            throw new OrderBusinessException(MessageConstant.ORDER_NOT_FOUND);
+        }
+        if (orders.getStatus() != Orders.CONFIRMED) {
+            throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
+        }
+        orders.setStatus(Orders.DELIVERY_IN_PROGRESS);
+        ordersMapper.update(orders);
     }
 }

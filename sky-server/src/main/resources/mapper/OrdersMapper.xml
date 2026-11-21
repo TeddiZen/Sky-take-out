@@ -65,4 +65,13 @@
         </where>
     </select>
 
+    <!-- 订单概览 -->
+    <select id="overview" resultType="com.sky.vo.OrderStatisticsVO">
+        SELECT
+            COUNT(CASE WHEN status = 2 THEN 1 END) AS toBeConfirmed,
+            COUNT(CASE WHEN status = 3 THEN 1 END) AS confirmed,
+            COUNT(CASE WHEN status = 4 THEN 1 END) AS deliveryInProgress
+        FROM orders
+    </select>
+
 </mapper>

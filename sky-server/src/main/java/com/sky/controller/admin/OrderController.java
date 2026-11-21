@@ -6,9 +6,7 @@ import com.sky.dto.OrdersSubmitDTO;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.OrderService;
-import com.sky.vo.OrderPaymentVO;
-import com.sky.vo.OrderSubmitVO;
-import com.sky.vo.OrderVO;
+import com.sky.vo.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -50,5 +48,56 @@ public class OrderController {
         return Result.success(orderVO);
     }
 
+    /**
+     * 各个状态的订单数量统计
+     * @return 订单概览数据
+     */
+    @GetMapping("/statistics")
+    @ApiOperation("订单概览")
+    public Result<OrderStatisticsVO> overview() {
+        log.info("查询订单概览参数");
+        OrderStatisticsVO orderStatisticsVO = orderService.overview();
+        log.info("查询订单概览结果：{}", orderStatisticsVO);
+        return Result.success(orderStatisticsVO);
+    }
+
+    /**
+     * 完成订单
+     * @param id 订单id
+     * @return 完成订单结果
+     */
+    @PutMapping("/complete/{id}")
+    @ApiOperation("完成订单")
+    public Result<String> complete(@RequestParam Long id) {
+        log.info("完成订单参数：{}", id);
+        orderService.complete(id);
+        return Result.success("完成订单成功");
+    }
+
+    /**
+     * 接单订单
+     * @param id 订单id
+     * @return 接单订单结果
+     */
+    @PutMapping("/confirm")
+    @ApiOperation("接单订单")
+    public Result<String> confirm(@RequestParam Long id) {
+        log.info("接单订单参数：{}", id);
+        orderService.confirm(id);
+        return Result.success("接单订单成功");
+    }
+
+    /**
+     * 取消订单
+     * @param id 订单id
+     * @return 取消订单结果
+     */
+    @PutMapping("/delivery/{id}")
+    @ApiOperation("派送订单")
+    public Result<String> delivery(@RequestParam Long id) {
+        log.info("派送订单参数：{}", id);
+        orderService.delivery(id);
+        return Result.success("派送订单成功");
+    }
 
 }
