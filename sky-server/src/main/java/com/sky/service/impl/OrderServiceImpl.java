@@ -211,18 +211,35 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * 取消订单
+     * 用户取消订单
      * @param id 订单id
      */
-    public void cancel(Long id) {
+    public void userCancel(Long id) {
         Orders orders = ordersMapper.selectById(id);
         if (orders == null) {
             throw new OrderBusinessException(MessageConstant.ORDER_NOT_FOUND);
         }
-        if (orders.getStatus() != Orders.TO_BE_CONFIRMED) {
+        if (orders.getStatus() == Orders.COMPLETED || orders.getStatus() == Orders.CANCELLED || orders.getStatus() == Orders.PENDING_PAYMENT) {
             throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
         }
         orders.setStatus(Orders.CANCELLED);
+        ordersMapper.update(orders);
+    }
+
+    /**
+     * 管理员取消订单
+     * @param ordersCancelDTO 订单取消DTO
+     */
+    public void adminCancel(OrdersCancelDTO ordersCancelDTO) {
+        Orders orders = ordersMapper.selectById(ordersCancelDTO.getId());
+        if (orders == null) {
+            throw new OrderBusinessException(MessageConstant.ORDER_NOT_FOUND);
+        }
+        if (orders.getStatus() == Orders.COMPLETED || orders.getStatus() == Orders.CANCELLED || orders.getStatus() == Orders.PENDING_PAYMENT) {
+            throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
+        }
+        orders.setStatus(Orders.CANCELLED);
+        orders.setCancelReason(ordersCancelDTO.getCancelReason());
         ordersMapper.update(orders);
     }
 
@@ -333,6 +350,23 @@ public class OrderServiceImpl implements OrderService {
             throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
         }
         orders.setStatus(Orders.DELIVERY_IN_PROGRESS);
+        ordersMapper.update(orders);
+    }
+
+    /**
+     * 拒绝订单
+     * @param ordersRejectionDTO 订单拒绝DTO
+     */
+    public void rejection(OrdersRejectionDTO ordersRejectionDTO) {
+        Orders orders = ordersMapper.selectById(ordersRejectionDTO.getId());
+        if (orders == null) {
+            throw new OrderBusinessException(MessageConstant.ORDER_NOT_FOUND);
+        }
+        if (orders.getStatus() != Orders.TO_BE_CONFIRMED) {
+            throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
+        }
+        orders.setStatus(Orders.CANCELLED);
+        orders.setCancelReason(ordersRejectionDTO.getRejectionReason());
         ordersMapper.update(orders);
     }
 }
