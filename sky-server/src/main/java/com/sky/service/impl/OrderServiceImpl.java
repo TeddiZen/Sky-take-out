@@ -5,10 +5,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
 import com.sky.context.BaseContext;
-import com.sky.dto.OrdersDTO;
-import com.sky.dto.OrdersPageQueryDTO;
-import com.sky.dto.OrdersPaymentDTO;
-import com.sky.dto.OrdersSubmitDTO;
+import com.sky.dto.*;
 import com.sky.entity.*;
 import com.sky.exception.OrderBusinessException;
 import com.sky.mapper.*;
@@ -309,10 +306,10 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * 接单订单
-     * @param id 订单id
+     * @param ordersConfirmDTO 订单确认DTO
      */
-    public void confirm(Long id) {
-        Orders orders = ordersMapper.selectById(id);
+    public void confirm(OrdersConfirmDTO ordersConfirmDTO) {
+        Orders orders = ordersMapper.selectById(ordersConfirmDTO.getId());
         if (orders == null) {
             throw new OrderBusinessException(MessageConstant.ORDER_NOT_FOUND);
         }
