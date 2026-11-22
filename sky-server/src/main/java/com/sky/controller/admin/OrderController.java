@@ -69,7 +69,7 @@ public class OrderController {
      */
     @PutMapping("/complete/{id}")
     @ApiOperation("完成订单")
-    public Result<String> complete(@RequestParam Long id) {
+    public Result<String> complete(@PathVariable Long id) {
         log.info("完成订单参数：{}", id);
         orderService.complete(id);
         return Result.success("完成订单成功");
@@ -89,13 +89,13 @@ public class OrderController {
     }
 
     /**
-     * 取消订单
+     * 派送订单
      * @param id 订单id
-     * @return 取消订单结果
+     * @return 派送订单结果
      */
     @PutMapping("/delivery/{id}")
     @ApiOperation("派送订单")
-    public Result<String> delivery(@RequestParam Long id) {
+    public Result<String> delivery(@PathVariable Long id) {
         log.info("派送订单参数：{}", id);
         orderService.delivery(id);
         return Result.success("派送订单成功");
