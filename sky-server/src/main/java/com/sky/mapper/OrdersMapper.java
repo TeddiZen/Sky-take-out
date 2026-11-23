@@ -7,6 +7,7 @@ import com.sky.vo.OrderOverViewVO;
 import com.sky.vo.OrderStatisticsVO;
 import org.apache.ibatis.annotations.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper
@@ -51,4 +52,13 @@ public interface OrdersMapper {
      * @return 订单概览数据
      */
     OrderStatisticsVO overview();
+
+    /**
+     * 根据订单状态和订单时间查询订单
+     * @param deliveryInProgress 订单状态
+     * @param date 订单时间
+     * @return 订单列表
+     */
+    @Select("select * from orders where status = #{deliveryInProgress} and order_time < #{date}")
+    List<Orders> selectByStatusAndOrderTime(Integer deliveryInProgress, LocalDateTime date);
 }
