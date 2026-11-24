@@ -3,6 +3,7 @@ package com.sky.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.sky.WebSocket.WebSocketServer;
 import com.sky.constant.MessageConstant;
 import com.sky.context.BaseContext;
 import com.sky.dto.*;
@@ -22,9 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static com.sky.constant.MessageConstant.ADDRESS_BOOK_IS_NULL;
 
@@ -44,6 +43,8 @@ public class OrderServiceImpl implements OrderService {
     private UserMapper userMapper;
     @Autowired
     private WeChatPayUtil weChatPayUtil;
+    @Autowired
+    private WebSocketServer webSocketServer;
 
 
 
@@ -125,6 +126,13 @@ public class OrderServiceImpl implements OrderService {
 
         // 直接执行支付成功逻辑，更新订单状态
         paySuccess(ordersPaymentDTO.getOrderNumber());
+
+        // 提醒商家接单
+        Map<String, Object> map = new HashMap<>();
+        map.put("type", 1);
+        map.put("content", "订单号：" + ordersPaymentDTO.getOrderNumber());
+        String json = JSONObject.toJSONString(map);
+        webSocketServer.sendToAllClient(json);
 
         // 返回一个空的支付VO（前端不会真正调起微信支付了）
         return OrderPaymentVO.builder()
