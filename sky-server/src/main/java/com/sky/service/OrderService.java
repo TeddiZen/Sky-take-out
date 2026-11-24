@@ -97,4 +97,10 @@ public interface OrderService {
      * @param ordersRejectDTO 订单拒绝DTO
      */
     void rejection(OrdersRejectionDTO ordersRejectionDTO);
+
+    /**
+     * 用户催单
+     * @param id 订单id
+     */
+    void reminder(Long id);
 }
