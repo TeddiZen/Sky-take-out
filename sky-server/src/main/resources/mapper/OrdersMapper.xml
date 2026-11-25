@@ -79,13 +79,13 @@
         SELECT SUM(amount) FROM orders
         <where>
             <if test="begin != null">
-                order_time >= #{begin}
+                and order_time >= #{begin}
             </if>
             <if test="end != null">
-                order_time &lt; #{end}
+                and order_time &lt; #{end}
             </if>
             <if test="status != null">
-                status = #{status}
+                and status = #{status}
             </if>
         </where>
     </select>
