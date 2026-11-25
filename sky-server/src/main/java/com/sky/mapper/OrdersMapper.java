@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface OrdersMapper {
@@ -61,4 +62,12 @@ public interface OrdersMapper {
      */
     @Select("select * from orders where status = #{deliveryInProgress} and order_time < #{date}")
     List<Orders> selectByStatusAndOrderTime(Integer deliveryInProgress, LocalDateTime date);
+
+
+    /**
+     * 查询营业额数据
+     * @param map
+     * @return
+     */
+    Double selectTurnoverByDate(Map<String, Object> map);
 }
