@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.OrderDetailMapper">
+
+    <!-- 根据订单ID列表查询销量排名top10 -->
+    <select id="selectTop10" resultType="java.util.Map">
+        SELECT
+            name,
+            SUM(number) AS number
+        FROM order_detail
+        WHERE order_id IN
+        <foreach collection="orderIds" item="orderId" open="(" separator="," close=")">
+            #{orderId}
+        </foreach>
+        GROUP BY name
+        ORDER BY number DESC
+        LIMIT 0,10
+    </select>
+
+</mapper>

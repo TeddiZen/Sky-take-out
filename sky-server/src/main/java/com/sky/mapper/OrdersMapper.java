@@ -87,4 +87,11 @@ public interface OrdersMapper {
      */
     @Select("select count(*) from orders where order_time >= #{currentTime} and order_time < #{currentTime} + interval 1 day and status = 5")
     Integer sumValidOrder(LocalDateTime currentTime);
+
+    /**
+     * 根据时间范围和订单状态查询订单ID列表
+     * @param map 查询条件（begin、end、status）
+     * @return 订单ID列表
+     */
+    List<Long> selectOrderIdsByCondition(Map<String, Object> map);
 }

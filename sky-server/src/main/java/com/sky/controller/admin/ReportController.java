@@ -4,6 +4,7 @@ import com.sky.dto.DataOverViewQueryDTO;
 import com.sky.result.Result;
 import com.sky.service.ReportService;
 import com.sky.vo.OrderReportVO;
+import com.sky.vo.SalesTop10ReportVO;
 import com.sky.vo.TurnoverReportVO;
 import com.sky.vo.UserReportVO;
 import io.swagger.annotations.Api;
@@ -71,5 +72,21 @@ public class ReportController {
         OrderReportVO orderReportVO = reportService.getOrderStatistics(begin, end);
         log.info("订单统计接口数据：{}", orderReportVO);
         return Result.success(orderReportVO);
+    }
+
+    /**
+     * 查询销量排名top10接口
+     *
+     * @param begin 开始时间
+     * @param end   结束时间
+     * @return 销量排名top10接口数据
+     */
+    @GetMapping("/top10")
+    public Result<SalesTop10ReportVO> getSalesRankingTop10(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate begin,
+                                                           @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate end) {
+        log.info("查询销量排名top10接口数据，时间范围：{} - {}", begin, end);
+        SalesTop10ReportVO salesTop10ReportVO = reportService.getSalesRankingTop10(begin, end);
+        log.info("销量排名top10接口数据：{}", salesTop10ReportVO);
+        return Result.success(salesTop10ReportVO);
     }
 }

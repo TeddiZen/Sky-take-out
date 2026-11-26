@@ -1,10 +1,12 @@
 package com.sky.service.impl;
 
 import com.sky.entity.Orders;
+import com.sky.mapper.OrderDetailMapper;
 import com.sky.mapper.OrdersMapper;
 import com.sky.mapper.UserMapper;
 import com.sky.service.ReportService;
 import com.sky.vo.OrderReportVO;
+import com.sky.vo.SalesTop10ReportVO;
 import com.sky.vo.TurnoverReportVO;
 import com.sky.vo.UserReportVO;
 import org.apache.commons.lang3.StringUtils;
@@ -30,6 +32,9 @@ public class ReportServiceImpl implements ReportService {
 
     @Autowired
     OrdersMapper orderMapper;
+
+    @Autowired
+    OrderDetailMapper orderDetailMapper;
 
 
     /**
@@ -191,6 +196,52 @@ public class ReportServiceImpl implements ReportService {
                 .totalOrderCount(totalOrderCount)
                 .validOrderCount(validOrderCount)
                 .orderCompletionRate(orderCompletionRate)
+                .build();
+    }
+
+    /**
+     * 查询销量排名top10接口
+     * @param begin 开始时间
+     * @param end 结束时间
+     * @return 销量排名top10接口数据
+     */
+    @Override
+    public SalesTop10ReportVO getSalesRankingTop10(LocalDate begin, LocalDate end) {
+
+        LocalDateTime beginTime = LocalDateTime.of(begin, LocalTime.MIN);
+        LocalDateTime endTime = LocalDateTime.of(end, LocalTime.MAX);
+
+        // 第一步：查询时间范围内已完成的订单ID列表
+        Map<String, Object> map = new HashMap<>();
+        map.put("begin", beginTime);
+        map.put("end", endTime);
+        map.put("status", Orders.COMPLETED);
+        List<Long> orderIds = ordersMapper.selectOrderIdsByCondition(map);
+
+        // 如果没有符合条件的订单，直接返回空数据
+        if (orderIds == null || orderIds.isEmpty()) {
+            return SalesTop10ReportVO.builder()
+                    .nameList("")
+                    .numberList("")
+                    .build();
+        }
+
+        // 第二步：根据订单ID列表查询order_detail表的销量top10
+        List<Map<String, Object>> top10List = orderDetailMapper.selectTop10(orderIds);
+
+        // 提取商品名称和销量
+        List<String> nameList = new ArrayList<>();
+        List<Integer> numberList = new ArrayList<>();
+
+        for (Map<String, Object> item : top10List) {
+            nameList.add((String) item.get("name"));
+            numberList.add(((Number) item.get("number")).intValue());
+        }
+
+        // 构建返回结果
+        return SalesTop10ReportVO.builder()
+                .nameList(StringUtils.join(nameList, ","))
+                .numberList(StringUtils.join(numberList, ","))
                 .build();
     }
 }

@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface OrderDetailMapper {
@@ -26,5 +27,12 @@ public interface OrderDetailMapper {
      */
     @Select("select * from order_detail where order_id = #{orderId}")
     List<OrderDetail> listByOrderId(Long orderId);
+
+    /**
+     * 根据订单ID列表查询销量排名top10
+     * @param orderIds 订单ID列表
+     * @return 销量排名列表
+     */
+    List<Map<String, Object>> selectTop10(List<Long> orderIds);
 
 }
