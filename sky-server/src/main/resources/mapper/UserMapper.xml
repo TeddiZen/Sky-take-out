@@ -6,4 +6,15 @@
         insert into user (openid, name, phone, sex, id_number, avatar, create_time)
         values (#{openid}, #{name}, #{phone}, #{sex}, #{idNumber}, #{avatar}, #{createTime})
     </insert>
+
+    <select id="listUserDailyNew" resultType="java.util.Map">
+        SELECT DATE(create_time) AS day, COUNT(id) AS newUserCount
+        FROM user
+        <where>
+            create_time &gt;= #{beginTime}
+            AND create_time &lt;= #{endTime}
+        </where>
+        GROUP BY DATE(create_time)
+        ORDER BY day
+    </select>
 </mapper>
