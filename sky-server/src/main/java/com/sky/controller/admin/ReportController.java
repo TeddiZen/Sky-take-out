@@ -3,6 +3,7 @@ package com.sky.controller.admin;
 import com.sky.dto.DataOverViewQueryDTO;
 import com.sky.result.Result;
 import com.sky.service.ReportService;
+import com.sky.vo.OrderReportVO;
 import com.sky.vo.TurnoverReportVO;
 import com.sky.vo.UserReportVO;
 import io.swagger.annotations.Api;
@@ -28,6 +29,7 @@ public class ReportController {
 
     /**
      * 查询营业额数据
+     *
      * @param end 结束时间
      * @return 营业额数据
      */
@@ -42,6 +44,7 @@ public class ReportController {
 
     /**
      * 查询用户统计接口
+     *
      * @param end 结束时间
      * @return 用户统计接口数据
      */
@@ -52,5 +55,21 @@ public class ReportController {
         UserReportVO userReportVO = reportService.getUserStatistics(begin, end);
         log.info("用户统计接口数据：{}", userReportVO);
         return Result.success(userReportVO);
+    }
+
+    /**
+     * 查询订单统计接口
+     *
+     * @param begin 开始时间
+     * @param end   结束时间
+     * @return 订单统计接口数据
+     */
+    @GetMapping("/ordersStatistics")
+    public Result<OrderReportVO> getOrderStatistics(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate begin,
+                                                   @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate end) {
+        log.info("查询订单统计接口数据，时间范围：{} - {}", begin, end);
+        OrderReportVO orderReportVO = reportService.getOrderStatistics(begin, end);
+        log.info("订单统计接口数据：{}", orderReportVO);
+        return Result.success(orderReportVO);
     }
 }

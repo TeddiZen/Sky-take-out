@@ -70,4 +70,21 @@ public interface OrdersMapper {
      * @return
      */
     Double selectTurnoverByDate(Map<String, Object> map);
+
+
+    /**
+     * 查询当前日期订单数
+     * @param currentTime 当前时间
+     * @return 订单数
+     */
+    @Select("select count(*) from orders where order_time >= #{currentTime} and order_time < #{currentTime} + interval 1 day")
+    Integer sumTodayOrder(LocalDateTime currentTime);
+
+    /**
+     * 查询当前日期有效订单数
+     * @param currentTime 当前时间
+     * @return 有效订单数
+     */
+    @Select("select count(*) from orders where order_time >= #{currentTime} and order_time < #{currentTime} + interval 1 day and status = 5")
+    Integer sumValidOrder(LocalDateTime currentTime);
 }
